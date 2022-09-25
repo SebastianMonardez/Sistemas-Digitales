@@ -7,21 +7,18 @@ def indices_paridad(palabra):
 
 def insertar_paridad(palabra):
     for ind_paridad in indices_paridad(palabra):
-        palabra.insert(ind_paridad, 0) #Indicamos con un 0 la pos de los bits de paridad
+        palabra.insert(ind_paridad, 0) #Indicamos la pos de los bits de paridad con un 0
 
-def calcular_paridad(palabra):     
-    for ind_paridad in indices_paridad(palabra):
-        pos_paridad = ind_paridad + 1
-        bloques = []
-        for ind_act in range(ind_paridad, len(palabra), 2 * pos_paridad):
-            bloque = palabra[ind_act : ind_act + pos_paridad]
-            bloques.extend(bloque)
-        
-        #Si resto != 0 paridad impar -> añadimos un 1
-        #En caso contrario no añadimos nada (ya tiene un 0 marcando la posicion de paridad)
-        #Se añade en la pos 0 del bloque porque cada bloque
-        #empieza con el bit de paridad que se va a calcular
-        if(sum(bloques) % 2 != 0):
+def calcular_paridad(palabra):
+    for i, ind_paridad in enumerate(indices_paridad(palabra)):
+        suma = 0
+        for j, bit in enumerate(palabra):
+            pos_bin = bin(j + 1) #Pos del bit en binario (j+1 = pos)
+            if(len(pos_bin) >= i+1): #i+1 = i-esimo bit de paridad a calcular
+                if(pos_bin[-(i+1)] == '1'): #pos_bin[-(i+1)] i-esimo LSB de la posicion del bit 
+                    suma += bit
+
+        if(suma % 2 != 0):
             palabra[ind_paridad] = 1
 
 palabra = [1, 1, 0, 0, 0, 0, 0, 1]
