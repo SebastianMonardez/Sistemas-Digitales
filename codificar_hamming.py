@@ -1,28 +1,27 @@
 def indices_paridad(palabra):
     pos = 1
-
     while(pos <= len(palabra)):
         yield(pos - 1) #pos-1 = indice
         pos *= 2 #Recorremos la palabra avanzando en potencias de 2
 
 def insertar_paridad(palabra):
-    for ind_paridad in indices_paridad(palabra):
-        palabra.insert(ind_paridad, 0) #Indicamos la pos de los bits de paridad con un 0
+    for ind_p in indices_paridad(palabra):
+        palabra.insert(ind_p, 0) #Indicamos con un 0 la pos de los bits de paridad
 
 def calcular_paridad(palabra):
-    for i, ind_paridad in enumerate(indices_paridad(palabra)):
-        suma = 0
-        for j, bit in enumerate(palabra):
-            pos_bin = bin(j + 1) #Pos del bit en binario (j+1 = pos)
-            if(len(pos_bin) >= i+1): #i+1 = i-esimo bit de paridad a calcular
-                if(pos_bin[-(i+1)] == '1'): #pos_bin[-(i+1)] i-esimo LSB de la posicion del bit 
-                    suma += bit
+    for i, ind_p in enumerate(indices_paridad(palabra)):
+        cant_1 = 0
+        for ind_bit, bit in enumerate(palabra):
+            if(ind_bit in indices_paridad(palabra)): continue #Para el calculo no se considera las pos de los bits de paridad
+            pos_bit = bin(ind_bit+1) #Pos en binario del j-esimo bit (ind_bit+1 = pos)
+            if(pos_bit[-(i+1)] == '1'): #pos_bin[-(i+1)] = i-esimo LSB de la pos del bit
+                cant_1 += bit
 
-        if(suma % 2 != 0):
-            palabra[ind_paridad] = 1
+        palabra[ind_p] = cant_1 % 2 #Calculo bit paridad
 
-palabra = [1, 1, 0, 0, 0, 0, 0, 1]
-
-insertar_paridad(palabra)
-calcular_paridad(palabra)
-print(f"Palabra Codificada en Hamming: {palabra}")
+def codificar_hamming(palabra):
+    palabra = palabra.copy()
+    
+    insertar_paridad(palabra)
+    calcular_paridad(palabra)
+    return palabra
