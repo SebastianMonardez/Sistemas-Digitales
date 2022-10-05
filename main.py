@@ -11,6 +11,8 @@ if(p_codificada == res_esperado):
 else:
     print("Codificacion Incorrecto")
 
+p_codificada[11] = 0
+
 p_decodificada = decodificar_hamming(p_codificada)
 
 if(p_decodificada == palabra):

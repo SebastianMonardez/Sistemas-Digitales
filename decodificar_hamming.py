@@ -3,18 +3,18 @@ from codificar_hamming import *
 def encontrar_error(palabra):
     p_verificadora = palabra.copy()
     calcular_paridad(p_verificadora)
-    indices_error = []
-    for ind, (bit1, bit2) in enumerate(zip(palabra, p_verificadora)):
+    pos_err = 0
+    for pos, (bit1, bit2) in enumerate(zip(palabra, p_verificadora), 1):
         if(bit1 != bit2):
-            indices_error.append(ind)
-    return indices_error
+            pos_err += pos
+    return pos_err
 
-def corregir_error(palabra, indices_error):
-    for ind in indices_error:
-        if(palabra[ind] == 0):
-            palabra[ind] = 1
-        else:
-            palabra[ind] = 0
+def corregir_error(palabra, pos_err):
+    indice_error = pos_err - 1
+    if(palabra[indice_error] == 0):
+        palabra[indice_error] = 1
+    else:
+        palabra[indice_error] = 0
 
 def remover_paridad(palabra):
     bits_dato = []
@@ -25,8 +25,9 @@ def remover_paridad(palabra):
 
 def decodificar_hamming(palabra):
     palabra = palabra.copy()
-    indices_error = encontrar_error(palabra)
-    if(len(indices_error) != 0):
-        corregir_error(palabra, indices_error)
+    pos_err = encontrar_error(palabra)
+    if(pos_err >= 1):
+        corregir_error(palabra, pos_err)
     palabra = remover_paridad(palabra)
+    print(palabra)
     return palabra
