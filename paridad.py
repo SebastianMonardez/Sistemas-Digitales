@@ -18,10 +18,3 @@ def calcular_paridad(palabra):
                 cant_1 += bit
 
         palabra[ind_p] = cant_1 % 2 #Calculo bit paridad
-
-def codificar_hamming(palabra):
-    palabra = palabra.copy()
-    
-    insertar_paridad(palabra)
-    calcular_paridad(palabra)
-    return palabra

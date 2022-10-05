@@ -1,5 +1,4 @@
-from codificar_hamming import *
-from decodificar_hamming import *
+from hamming import *
 
 palabra = [1,1,0,0,0,0,0,1]
 res_esperado = [0,1,1,0,1,0,0,1,0,0,0,1]

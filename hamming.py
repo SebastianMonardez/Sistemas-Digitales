@@ -1,4 +1,20 @@
-from codificar_hamming import *
+from paridad import *
+
+def codificar_hamming(palabra):
+    palabra = palabra.copy()
+    
+    insertar_paridad(palabra)
+    calcular_paridad(palabra)
+    return palabra
+
+def decodificar_hamming(palabra):
+    palabra = palabra.copy()
+    pos_err = encontrar_error(palabra)
+    if(pos_err >= 1):
+        corregir_error(palabra, pos_err)
+    palabra = remover_paridad(palabra)
+    print(palabra)
+    return palabra
 
 def encontrar_error(palabra):
     p_verificadora = palabra.copy()
@@ -22,12 +38,3 @@ def remover_paridad(palabra):
         if ind not in indices_paridad(palabra): #Guardamos solo los bits de dato
             bits_dato.append(bit)
     return bits_dato
-
-def decodificar_hamming(palabra):
-    palabra = palabra.copy()
-    pos_err = encontrar_error(palabra)
-    if(pos_err >= 1):
-        corregir_error(palabra, pos_err)
-    palabra = remover_paridad(palabra)
-    print(palabra)
-    return palabra
