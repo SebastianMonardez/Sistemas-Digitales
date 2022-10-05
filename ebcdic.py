@@ -6,7 +6,7 @@ with open("ebcdic.txt", 'r') as datos:
 def encontrar_bits(caracter):
     for i in matriz:
         if(i[0] == caracter):
-            return i[1]
+            return [int(i) for i in i[1]]
 
 def encontrar_caracter(bits):
     for i in matriz:
